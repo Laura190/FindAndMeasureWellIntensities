@@ -15,7 +15,7 @@ Click Run \
 Input the requested parameters into the dialog box
 
 ## Output
-One .csv file with mean intensity for each well (columns) for each time point (rows). File will be names "Results_<name of image stack>.csv"
+One .csv file with mean intensity for each well (columns) for each time point (rows). File will be named "Results_\<name of image stack\>.csv"
 
 ## Limitations
 The macro assumes the plate does not move during imaging.
