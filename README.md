@@ -5,8 +5,9 @@ Tested with 96 well plate images on Ubuntu 20.04, ImageJ 1.53q
 
 ## Parameters:
 Input: Folder containing 2D+t image stack of well plate
-Output: Folder to save .csv files of measurements
+Output: Folder to save .csv file of measurements
 Well size: Diameter of wells in pixels
+Despeckle: Applies despeckle function to image stack before analysis if true
 
 ## Usage
 In ImageJ/Fiji: Plugins > Macros > Edit and select the macro "FindAndMeasureWells.ijm". \
@@ -14,7 +15,7 @@ Click Run \
 Input the requested parameters into the dialog box
 
 ## Output
-One .csv file will be outputtted for each time point containing the intensity measurements for each well. The wells are labelled top to bottom, left to right.
+One .csv file with mean intensity for each well (columns) for each time point (rows). File will be names "Results_<name of image stack>.csv"
 
 ## Limitations
 The macro assumes the plate does not move during imaging.
