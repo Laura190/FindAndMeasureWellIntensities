@@ -1,7 +1,8 @@
 #@ File (label = "Input directory", style = "directory") input
-#@ File (label = "Output directory", style = "directory") output
-#@ int (label = "Well size (pixels)", value=52) well_size
+#@ File (label = "Input directory", style = "directory") output
+#@ int (label = "Well size (pixels)", default=52) well_size
 #@ boolean (label= "Despeckle") despec
+
 
 //close any open images and reset the roiManager to prevent errors
 roiManager("reset");
@@ -11,6 +12,7 @@ processFile(input,output);
 function processFile(input, output) {
 	//Load image sequence
 	File.openSequence(input);
+	title=getTitle()
 	run("Flip Horizontally","stack");
 	//If despeckle option selected despeckle
 	if (despec) {
@@ -79,12 +81,8 @@ function processFile(input, output) {
 	
 	//Measure mean grey value for every well at every time point
 	run("Set Measurements...", "mean redirect=None decimal=9");
-	for (i = 1; i <= nSlices; i++) {
-    	setSlice(i);
-    	frame=IJ.pad(i,3);
-    	roiManager("Measure");
-    	saveAs("Results", output+"/Frame"+frame+".csv");
-    	close("Results");
-	}
+   	roiManager("Multi Measure");
+   	saveAs("Results", output+"/Results_"+title+".csv");
+   	close("Results");
 	print("Saving to: " + output);
 }
