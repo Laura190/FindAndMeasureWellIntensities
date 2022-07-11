@@ -27,7 +27,7 @@ function processFile(input, output) {
 	setOption("BlackBackground", true);
 	run("Convert to Mask");
 	run("Analyze Particles...", "size=5000-Infinity exclude include add");
-	selectWindow("image sequence for Laura CAMDU");
+	selectWindow(title);
 	roiManager("Select", 0);
 	run("Duplicate...", "title=cropped duplicate");
 	roiManager("Select", 0);
