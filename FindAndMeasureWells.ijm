@@ -1,5 +1,5 @@
 #@ File (label = "Input directory", style = "directory") input
-#@ File (label = "Input directory", style = "directory") output
+#@ File (label = "Output directory", style = "directory") output
 #@ int (label = "Well size (pixels)", default=52) well_size
 #@ boolean (label= "Despeckle") despec
 
