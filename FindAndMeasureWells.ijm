@@ -36,7 +36,7 @@ function processFile(input, output) {
 	
 	//Create background image to remove any large gradients
 	run("Duplicate...", "title=background");
-	run("Gaussian Blur...", "sigma=20");
+	run("Gaussian Blur...", "sigma=15");
 	//Create foreground image, removing small noise
 	selectWindow("cropped");
 	run("Duplicate...", "title=foreground");
@@ -55,11 +55,14 @@ function processFile(input, output) {
 	selectWindow("cropped");
 	num_rois=roiManager("count");
 	print(num_rois + " wells found");
+	if (num_rois != 96) {
+		exit("Error: "+ num_rois + " wells found");
+	}
 	//Sort centroids and draw circles so that final wells are labelled
 	//in order top to bottom, left to right
 	Table.sort("X");
 	selectWindow("cropped");
-	close("\\Others");
+	//close("\\Others");
 	for (i = 0; i < 12; i++) {
 		x=newArray(8);
 		y=newArray(8);
