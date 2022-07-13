@@ -4,9 +4,9 @@ ImageJ macro to automatically finds well positions and measures the intensitites
 Tested with 96 well plate images on Ubuntu 20.04, ImageJ 1.53q
 
 ## Parameters:
-Input: Folder containing 2D+t image stack of well plate
-Output: Folder to save .csv file of measurements
-Well size: Diameter of wells in pixels
+Input: Folder containing 2D+t image stack of well plate \
+Output: Folder to save .csv file of measurements \
+Well size: Diameter of wells in pixels \
 Despeckle: Applies despeckle function to image stack before analysis if true
 
 ## Usage
