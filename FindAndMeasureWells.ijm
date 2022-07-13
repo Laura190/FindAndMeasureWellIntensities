@@ -19,11 +19,11 @@ function processFile(input, output) {
 		run("Despeckle", "stack");
 	}
 	//Set to measure centroid coordinates
-	run("Set Measurements...", "centroid redirect=None decimal=9");
+	run("Set Measurements...", "centroid perimeter shape descriptors redirect=None decimal=9");
 	
 	//Select only well plate area
 	run("Duplicate...", "use");
-	setAutoThreshold("Default dark");
+	setAutoThreshold("Huang dark");
 	setOption("BlackBackground", true);
 	run("Convert to Mask");
 	run("Analyze Particles...", "size=5000-Infinity exclude include add");
@@ -36,7 +36,7 @@ function processFile(input, output) {
 	
 	//Create background image to remove any large gradients
 	run("Duplicate...", "title=background");
-	run("Gaussian Blur...", "sigma=15");
+	run("Gaussian Blur...", "sigma=10");
 	//Create foreground image, removing small noise
 	selectWindow("cropped");
 	run("Duplicate...", "title=foreground");
@@ -49,7 +49,8 @@ function processFile(input, output) {
 	run("Convert to Mask");
 	close("Results");
 	//Select only wells and measure centroid positions
-	run("Analyze Particles...", "size=1200-Infinity include add");
+	run("Close-");
+	run("Analyze Particles...", "size=1100-Infinity include add");
 	roiManager("Measure");
 
 	selectWindow("cropped");
@@ -62,7 +63,7 @@ function processFile(input, output) {
 	//in order top to bottom, left to right
 	Table.sort("X");
 	selectWindow("cropped");
-	//close("\\Others");
+	close("\\Others");
 	for (i = 0; i < 12; i++) {
 		x=newArray(8);
 		y=newArray(8);
