@@ -7,6 +7,7 @@ Tested with 96 well plate images on Ubuntu 20.04, ImageJ 1.53q
 Input: Folder containing 2D+t image stack of well plate \
 Output: Folder to save .csv file of measurements \
 Well size: Diameter of wells in pixels \
+Well plate: Choose style of well plate used \
 Despeckle: Applies despeckle function to image stack before analysis if true
 
 ## Usage
@@ -15,7 +16,7 @@ Click Run \
 Input the requested parameters into the dialog box
 
 ## Output
-One .csv file with mean intensity for each well (columns) for each time point (rows). File will be named "Results_\<name of image stack\>.csv"
+One .csv file with mean intensity, integrated density and raw integrated density for each well (columns) for each time point (rows). File will be named "Results_\<name of image stack\>.csv"
 
 ## Limitations
 The macro assumes the plate does not move during imaging.
