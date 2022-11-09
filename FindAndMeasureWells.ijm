@@ -1,6 +1,7 @@
 #@ File (label = "Input directory", style = "directory") input
 #@ File (label = "Output directory", style = "directory") output
 #@ int (label = "Well size (pixels)", default=52) well_size
+#@ String (label = "Well plate", choices={"Original", "New"}, style="radioButtonHorizontal") well_plate
 #@ boolean (label= "Despeckle") despec
 
 
@@ -36,7 +37,11 @@ function processFile(input, output) {
 	
 	//Create background image to remove any large gradients
 	run("Duplicate...", "title=background");
-	run("Gaussian Blur...", "sigma=10");
+	if (well_plate=="New"){
+		run("Gaussian Blur...", "sigma=8");
+	} else {
+	    run("Gaussian Blur...", "sigma=10");
+	}
 	//Create foreground image, removing small noise
 	selectWindow("cropped");
 	run("Duplicate...", "title=foreground");
@@ -84,7 +89,7 @@ function processFile(input, output) {
 	close("Results");
 	
 	//Measure mean grey value for every well at every time point
-	run("Set Measurements...", "mean redirect=None decimal=9");
+	run("Set Measurements...", "mean integrated redirect=None decimal=9");
    	roiManager("Multi Measure");
    	saveAs("Results", output+"/Results_"+title+".csv");
    	close("Results");
