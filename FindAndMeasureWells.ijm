@@ -1,7 +1,6 @@
 #@ File (label = "Input directory", style = "directory") input
 #@ File (label = "Output directory", style = "directory") output
 #@ int (label = "Well size (pixels)", default=52) well_size
-#@ String (label = "Well plate", choices={"Original", "New"}, style="radioButtonHorizontal") well_plate
 #@ boolean (label= "Despeckle") despec
 
 
@@ -21,7 +20,7 @@ function processFile(input, output) {
 	}
 	//Set to measure centroid coordinates
 	run("Set Measurements...", "centroid perimeter shape descriptors redirect=None decimal=9");
-	
+
 	//Select only well plate area
 	run("Duplicate...", "use");
 	setAutoThreshold("Huang dark");
@@ -37,11 +36,7 @@ function processFile(input, output) {
 	
 	//Create background image to remove any large gradients
 	run("Duplicate...", "title=background");
-	if (well_plate=="New"){
-		run("Gaussian Blur...", "sigma=8");
-	} else {
-	    run("Gaussian Blur...", "sigma=10");
-	}
+	run("Gaussian Blur...", "sigma=8");
 	//Create foreground image, removing small noise
 	selectWindow("cropped");
 	run("Duplicate...", "title=foreground");
@@ -50,13 +45,26 @@ function processFile(input, output) {
 	imageCalculator("Subtract create", "foreground","background");
 	// Threshold to select wells and inbetween diamonds
 	selectWindow("Result of foreground");
-	setAutoThreshold("Triangle dark");
+	setAutoThreshold("MinError dark");
+	
 	run("Convert to Mask");
 	close("Results");
 	//Select only wells and measure centroid positions
 	run("Close-");
 	run("Analyze Particles...", "size=1100-Infinity include add");
 	roiManager("Measure");
+
+	num_found = nResults();
+	for (i = 0; i < num_found; i++) {
+	  v = getResult('Circ.', i);
+      if (v >= 0.5) {
+    	roiManager('select',i);
+    	roiManager("add");
+	}
+  }
+	roiManager("Select", Array.getSequence(num_found));
+	roiManager("delete");
+	close("Results");
 
 	selectWindow("cropped");
 	num_rois=roiManager("count");
@@ -66,6 +74,7 @@ function processFile(input, output) {
 	}
 	//Sort centroids and draw circles so that final wells are labelled
 	//in order top to bottom, left to right
+	roiManager("Measure");
 	Table.sort("X");
 	selectWindow("cropped");
 	close("\\Others");
@@ -89,7 +98,7 @@ function processFile(input, output) {
 	close("Results");
 	
 	//Measure mean grey value for every well at every time point
-	run("Set Measurements...", "mean integrated redirect=None decimal=9");
+	run("Set Measurements...", "mean redirect=None decimal=9");
    	roiManager("Multi Measure");
    	saveAs("Results", output+"/Results_"+title+".csv");
    	close("Results");
