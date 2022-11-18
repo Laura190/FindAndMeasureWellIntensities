@@ -98,7 +98,7 @@ function processFile(input, output) {
 	close("Results");
 	
 	//Measure mean grey value for every well at every time point
-	run("Set Measurements...", "mean redirect=None decimal=9");
+	run("Set Measurements...", "mean integrated redirect=None decimal=9");
    	roiManager("Multi Measure");
    	saveAs("Results", output+"/Results_"+title+".csv");
    	close("Results");
