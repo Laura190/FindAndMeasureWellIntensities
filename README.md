@@ -16,7 +16,7 @@ Click Run \
 Input the requested parameters into the dialog box
 
 ## Output
-One .csv file with mean intensity, integrated density and raw integrated density for each well (columns) for each time point (rows). File will be named "Results_\<name of image stack\>.csv"
+Two .csv files, one with mean intensity and one with integrated density and raw integrated density for each well (columns) for each time point (rows). Files will be named "Results_Mean_\<name of image stack\>.csv" and "Results_IntDen_\<name of image stack\>.csv"
 
 ## Limitations
 The macro assumes the plate does not move during imaging.
