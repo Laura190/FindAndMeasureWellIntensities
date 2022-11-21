@@ -3,7 +3,6 @@
 #@ int (label = "Well size (pixels)", default=52) well_size
 #@ boolean (label= "Despeckle") despec
 
-
 //close any open images and reset the roiManager to prevent errors
 roiManager("reset");
 close("*");
@@ -98,9 +97,14 @@ function processFile(input, output) {
 	close("Results");
 	
 	//Measure mean grey value for every well at every time point
-	run("Set Measurements...", "mean integrated redirect=None decimal=9");
+	run("Set Measurements...", "mean redirect=None decimal=9");
    	roiManager("Multi Measure");
-   	saveAs("Results", output+"/Results_"+title+".csv");
+   	saveAs("Results", output+"/Results_Mean_"+title+".csv");
    	close("Results");
-	print("Saving to: " + output);
+	print("Saving mean measurements to: " + output);
+	run("Set Measurements...", "integrated redirect=None decimal=9");
+   	roiManager("Multi Measure");
+   	saveAs("Results", output+"/Results_IntDen_"+title+".csv");
+   	close("Results");
+	print("Saving integrated density measurements to: " + output);
 }
